@@ -650,3 +650,43 @@ body {
         width: 100%;
     }
 }
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+.visitor-counter {
+    position: fixed;
+    top: 18px;
+    left: 20px;
+
+    z-index: 9999;
+
+    display: flex;
+    align-items: center;
+    gap: 5px;
+
+    font-family: "Press Start 2P", monospace;
+    font-size: 9px;
+
+    color: rgba(255, 255, 255, 0.75);
+
+    text-shadow:
+        1px 1px 0 #000;
+
+    user-select: none;
+    pointer-events: none;
+}
+
+.visitor-label {
+    letter-spacing: 1px;
+}
+
+.visitor-separator {
+    opacity: 0.6;
+}
+
+.counterapi {
+    display: inline-block;
+    min-width: 15px;
+
+    font-family: "Press Start 2P", monospace;
+    font-size: 9px;
+}
