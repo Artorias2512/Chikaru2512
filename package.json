@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "cors": "^2.8.6",
+    "counterapi": "^3.1.0",
     "express": "^5.3.0"
   }
 }
