@@ -3,7 +3,7 @@ import "./style.css";
 const app = document.querySelector<HTMLDivElement>("#app");
 
 if (!app) {
-    throw new Error("App element not found.");
+  throw new Error("App element not found.");
 }
 
 const rainCount = 140;
@@ -22,7 +22,7 @@ app.innerHTML = `
             <h1 class="mainname">Chikaru2512</h1>
 
             <p class="intro">
-                Hello, I'm Chikaru, i'm just a normal guy who likes to play games and make something fun.
+                Hello mấy con gà
             </p>
 
             <div class="music-player">
@@ -78,7 +78,6 @@ app.innerHTML = `
                 </a>
 
             </div>
-
            <div class="app">
     <div class="app-icon" id="app-icon">◆</div>
 
@@ -100,138 +99,108 @@ app.innerHTML = `
 const rain = document.querySelector<HTMLDivElement>(".rain");
 
 if (rain) {
-    for (let i = 0; i < rainCount; i++) {
-        const drop = document.createElement("span");
+  for (let i = 0; i < rainCount; i++) {
+    const drop = document.createElement("span");
 
-        drop.className = "rain-drop";
+    drop.className = "rain-drop";
 
-        drop.style.left = `${Math.random() * 100}%`;
-        drop.style.animationDuration = `${0.5 + Math.random() * 0.6}s`;
-        drop.style.animationDelay = `${Math.random() * -2}s`;
-        drop.style.opacity = `${0.15 + Math.random() * 0.5}`;
+    drop.style.left = `${Math.random() * 100}%`;
+    drop.style.animationDuration = `${0.5 + Math.random() * 0.6}s`;
+    drop.style.animationDelay = `${Math.random() * -2}s`;
+    drop.style.opacity = `${0.15 + Math.random() * 0.5}`;
 
-        rain.appendChild(drop);
-    }
+    rain.appendChild(drop);
+  }
 }
 
 async function updateActiveApplication() {
-    try {
-        const response = await fetch(
-            "http://localhost:3001/api/status",
-            {
-                cache: "no-store"
-            }
-        );
+  try {
+    const response = await fetch("http://localhost:3001/api/status", {
+      cache: "no-store",
+    });
 
-        if (!response.ok) {
-            throw new Error("Tracker offline");
-        }
-
-        const data = await response.json();
-
-        const appTitle =
-            document.querySelector<HTMLDivElement>("#app-title");
-
-        const appIcon =
-            document.querySelector<HTMLDivElement>("#app-icon");
-
-        const appStatus =
-            document.querySelector<HTMLDivElement>("#app-status");
-
-        if (!appTitle || !appIcon || !appStatus) {
-            return;
-        }
-
-        const appName =
-            String(data.app || "").toLowerCase();
-
-        /*
-         * =========================
-         * SPOTIFY
-         * =========================
-         */
-
-        if (data.spotify === true && data.title) {
-            appIcon.textContent = "♪";
-
-            appTitle.textContent = data.title;
-
-            appStatus.textContent =
-                data.artist || "Spotify";
-
-            return;
-        }
-
-        /*
-         * =========================
-         * NORMAL APPLICATION
-         * =========================
-         */
-
-        let displayName = data.app || "Unknown";
-
-        if (appName.includes("chrome")) {
-
-            displayName = "Google Chrome";
-
-        } else if (appName.includes("discord")) {
-
-            displayName = "Discord";
-
-        } else if (appName.includes("spotify")) {
-
-            displayName = "Spotify";
-
-        } else if (appName.includes("minecraft")) {
-
-            displayName = "Minecraft";
-
-        } else if (appName.includes("code")) {
-
-            displayName = "Visual Studio Code";
-        }
-
-        appIcon.textContent = "◆";
-
-        appTitle.textContent = displayName;
-
-        appStatus.textContent = "ACTIVE";
-
-    } catch (error) {
-
-        const appTitle =
-            document.querySelector<HTMLDivElement>("#app-title");
-
-        const appIcon =
-            document.querySelector<HTMLDivElement>("#app-icon");
-
-        const appStatus =
-            document.querySelector<HTMLDivElement>("#app-status");
-
-        if (!appTitle || !appIcon || !appStatus) {
-            return;
-        }
-
-        appIcon.textContent = "○";
-
-        appTitle.textContent = "Tracker Offline";
-
-        appStatus.textContent =
-            "Start tracker.py to activate";
+    if (!response.ok) {
+      throw new Error("Tracker offline");
     }
+
+    const data = await response.json();
+
+    const appTitle = document.querySelector<HTMLDivElement>("#app-title");
+
+    const appIcon = document.querySelector<HTMLDivElement>("#app-icon");
+
+    const appStatus = document.querySelector<HTMLDivElement>("#app-status");
+
+    if (!appTitle || !appIcon || !appStatus) {
+      return;
+    }
+
+    const appName = String(data.app || "").toLowerCase();
+
+    /*
+     * =========================
+     * SPOTIFY
+     * =========================
+     */
+
+    if (data.spotify === true && data.title) {
+      appIcon.textContent = "♪";
+
+      appTitle.textContent = data.title;
+
+      appStatus.textContent = data.artist || "Spotify";
+
+      return;
+    }
+
+    /*
+     * =========================
+     * NORMAL APPLICATION
+     * =========================
+     */
+
+    let displayName = data.app || "Unknown";
+
+    if (appName.includes("chrome")) {
+      displayName = "Google Chrome";
+    } else if (appName.includes("discord")) {
+      displayName = "Discord";
+    } else if (appName.includes("spotify")) {
+      displayName = "Spotify";
+    } else if (appName.includes("minecraft")) {
+      displayName = "Minecraft";
+    } else if (appName.includes("code")) {
+      displayName = "Visual Studio Code";
+    }
+
+    appIcon.textContent = "◆";
+
+    appTitle.textContent = displayName;
+
+    appStatus.textContent = "ACTIVE";
+  } catch (error) {
+    const appTitle = document.querySelector<HTMLDivElement>("#app-title");
+
+    const appIcon = document.querySelector<HTMLDivElement>("#app-icon");
+
+    const appStatus = document.querySelector<HTMLDivElement>("#app-status");
+
+    if (!appTitle || !appIcon || !appStatus) {
+      return;
+    }
+
+    appIcon.textContent = "○";
+
+    appTitle.textContent = "Tracker Offline";
+
+    appStatus.textContent = "Start tracker.py to activate";
+  }
 }
 
 updateActiveApplication();
 
-setInterval(
-    updateActiveApplication,
-    5000
-);
-
+setInterval(updateActiveApplication, 5000);
 
 updateActiveApplication();
 
-setInterval(
-    updateActiveApplication,
-    5000
-);
+setInterval(updateActiveApplication, 5000);
