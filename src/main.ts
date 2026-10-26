@@ -30,7 +30,7 @@ app.innerHTML = `
                     <div class="music-icon">🎵</div>
 
                     <div>
-                        <div class="music-label">NOW PLAYING</div>
+                        <div class="music-label">FAVOURITE SONG</div>
                         <div class="music-title">her — JVKE</div>
                     </div>
                 </div>
