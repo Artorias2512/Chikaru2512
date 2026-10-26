@@ -1,7 +1,7 @@
 import "./style.css";
-import { Counter } from "counterapi";
 
-const app = document.querySelector<HTMLDivElement>("#app");
+const app =
+    document.querySelector<HTMLDivElement>("#app");
 
 if (!app) {
     throw new Error("App element not found.");
@@ -9,32 +9,54 @@ if (!app) {
 
 const rainCount = 140;
 
+/*
+ * =========================
+ * COUNTER API
+ * =========================
+ */
+
+const COUNTER_WORKSPACE = "6321";
+
+const COUNTER_NAME =
+    "visits";
+
+const COUNTER_TOKEN =
+    "YOUR_ACCESS_TOKEN";
+
+const COUNTER_BASE =
+    "https://api.counterapi.dev/v2";
+
+
 app.innerHTML = `
     <div class="world">
 
-       <div class="visitor-counter">
-    <span class="visitor-label">VISITORS</span>
-    <span class="visitor-separator">:</span>
+        <div class="visitor-counter">
 
-    <div
-        class="counterapi"
-        ns="chikaru2512.com"
-        action="view"
-        key="visits"
-        noIcon="true"
-        noCss="true">
-    </div>
-</div>
+            <span class="visitor-label">
+                VISITORS
+            </span>
+
+            <span class="visitor-separator">
+                :
+            </span>
+
+            <span id="visitor-count">
+                ...
+            </span>
+
+        </div>
 
         <div class="rain"></div>
 
         <main class="container">
 
             <div class="status">
+
                 <img
                     class="status-icon"
                     src="/icons/zhongli.gif"
                     alt="">
+
             </div>
 
             <h1 class="mainname">
@@ -86,10 +108,13 @@ app.innerHTML = `
                     aria-label="Discord">
 
                     <svg viewBox="0 0 24 24">
+
                         <path d="M19.54 5.12A16.88 16.88 0 0 0 15.4 3.85l-.5 1.02a15.4 15.4 0 0 0-5.8 0l-.5-1.02a16.88 16.88 0 0 0-4.14 1.27C1.84 8.93 1.13 12.64 1.49 16.3a16.84 16.84 0 0 0 5.08 2.57l1.23-1.67c-.68-.25-1.33-.57-1.94-.94l.48-.37c3.74 1.74 7.8 1.74 11.49 0l.48.37c-.61.37-1.26.69-1.94.94l1.23 1.67a16.84 16.84 0 0 0 5.08-2.57c.42-4.24-.72-7.91-3.64-11.18ZM8.62 14.3c-1.1 0-2-.99-2-2.21s.88-2.21 2-2.21 2 .99 2 2.21-.9 2.21-2 2.21Zm6.76 0c-1.1 0-2-.99-2-2.21s.88-2.21 2-2.21 2 .99 2 2.21-.9 2.21-2 2.21Z"/>
+
                     </svg>
 
                 </a>
+
 
                 <a
                     class="social-icon spotify"
@@ -97,10 +122,13 @@ app.innerHTML = `
                     aria-label="Spotify">
 
                     <svg viewBox="0 0 24 24">
+
                         <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm4.59 14.42a.74.74 0 0 1-1.02.25c-2.8-1.71-6.33-2.1-10.49-1.15a.74.74 0 1 1-.33-1.44c4.55-1.04 8.45-.56 11.59 1.36.35.22.46.68.25 1.03Zm1.37-3.05a.93.93 0 0 1-1.28.31c-3.2-1.97-8.08-2.54-11.86-1.39a.93.93 0 1 1-.54-1.78c4.33-1.31 9.72-.67 13.37 1.57.44.27.58.85.31 1.29Zm.12-3.18C14.24 8 8.05 7.78 4.47 8.87a1.11 1.11 0 1 1-.65-2.12c4.11-1.25 10.95-1 15.12 1.48a1.11 1.11 0 0 1-.86 1.96Z"/>
+
                     </svg>
 
                 </a>
+
 
                 <a
                     class="social-icon facebook"
@@ -108,12 +136,15 @@ app.innerHTML = `
                     aria-label="Facebook">
 
                     <svg viewBox="0 0 24 24">
+
                         <path d="M13.5 21v-8h2.7l.4-3h-3.1V8.08c0-.87.24-1.46 1.5-1.46h1.6V3.94c-.28-.04-1.25-.12-2.38-.12-2.36 0-3.98 1.44-3.98 4.08V10H7.55v3h2.69v8h3.26Z"/>
+
                     </svg>
 
                 </a>
 
             </div>
+
 
             <div class="app">
 
@@ -146,9 +177,12 @@ app.innerHTML = `
     </div>
 `;
 
-/* =========================
-   VISITOR COUNTER
-   ========================= */
+
+/*
+ * =========================
+ * VISITOR COUNTER
+ * =========================
+ */
 
 async function updateVisitorCount() {
 
@@ -163,30 +197,60 @@ async function updateVisitorCount() {
 
     try {
 
-        /*
-         * CounterAPI V2
-         *
-         * IMPORTANT:
-         * Replace this with the Workspace name
-         * from your CounterAPI dashboard.
-         */
-        const counter = new Counter({
-            workspace: "chikaru2512.com"
-        });
+        const url =
+            `${COUNTER_BASE}/` +
+            `${COUNTER_WORKSPACE}/` +
+            `${COUNTER_NAME}/up`;
+
+        const response =
+            await fetch(
+                url,
+                {
+                    method: "GET",
+                    headers: {
+                        "Authorization":
+                            `Bearer ${COUNTER_TOKEN}`
+                    },
+                    cache: "no-store"
+                }
+            );
+
+        if (!response.ok) {
+
+            throw new Error(
+                `Counter API error: ${response.status}`
+            );
+        }
 
         const result =
-            await counter.up("visits");
+            await response.json();
 
-        const count =
-            result.data?.up_count ?? 0;
+        /*
+         * V2 normally returns:
+         *
+         * {
+         *     data: {
+         *         value: 123
+         *     }
+         * }
+         */
+
+        const value =
+            result?.data?.value ??
+            result?.value;
+
+        if (
+            value === undefined ||
+            value === null
+        ) {
+
+            throw new Error(
+                "Counter value not found."
+            );
+        }
 
         visitorCount.textContent =
-            count.toLocaleString();
-
-        console.log(
-            "Visitor count:",
-            count
-        );
+            Number(value).toLocaleString();
 
     } catch (error) {
 
@@ -200,11 +264,12 @@ async function updateVisitorCount() {
     }
 }
 
-updateVisitorCount();
 
-/* =========================
-   RAIN
-   ========================= */
+/*
+ * =========================
+ * RAIN
+ * =========================
+ */
 
 const rain =
     document.querySelector<HTMLDivElement>(
@@ -213,10 +278,16 @@ const rain =
 
 if (rain) {
 
-    for (let i = 0; i < rainCount; i++) {
+    for (
+        let i = 0;
+        i < rainCount;
+        i++
+    ) {
 
         const drop =
-            document.createElement("span");
+            document.createElement(
+                "span"
+            );
 
         drop.className =
             "rain-drop";
@@ -237,9 +308,12 @@ if (rain) {
     }
 }
 
-/* =========================
-   ACTIVE APPLICATION
-   ========================= */
+
+/*
+ * =========================
+ * ACTIVE APPLICATION
+ * =========================
+ */
 
 async function updateActiveApplication() {
 
@@ -287,15 +361,6 @@ async function updateActiveApplication() {
             return;
         }
 
-        const appName =
-            String(
-                data.app || ""
-            ).toLowerCase();
-
-        /* =========================
-           SPOTIFY
-           ========================= */
-
         if (
             data.spotify === true &&
             data.title
@@ -314,49 +379,9 @@ async function updateActiveApplication() {
             return;
         }
 
-        /* =========================
-           NORMAL APPLICATION
-           ========================= */
-
-        let displayName =
+        const displayName =
             data.app ||
             "Unknown";
-
-        if (
-            appName.includes("chrome")
-        ) {
-
-            displayName =
-                "Google Chrome";
-
-        } else if (
-            appName.includes("discord")
-        ) {
-
-            displayName =
-                "Discord";
-
-        } else if (
-            appName.includes("spotify")
-        ) {
-
-            displayName =
-                "Spotify";
-
-        } else if (
-            appName.includes("minecraft")
-        ) {
-
-            displayName =
-                "Minecraft";
-
-        } else if (
-            appName.includes("code")
-        ) {
-
-            displayName =
-                "Visual Studio Code";
-        }
 
         appIcon.textContent =
             "◆";
@@ -403,6 +428,15 @@ async function updateActiveApplication() {
             "Start tracker.py to activate";
     }
 }
+
+
+/*
+ * =========================
+ * START
+ * =========================
+ */
+
+updateVisitorCount();
 
 updateActiveApplication();
 

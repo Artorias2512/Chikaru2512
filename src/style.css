@@ -1,4 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+@import url(
+    'https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap'
+);
 
 * {
     box-sizing: border-box;
@@ -7,22 +10,31 @@
 html,
 body {
     margin: 0;
+
     width: 100%;
+
     min-height: 100%;
 
     overflow-x: hidden;
+
     overflow-y: auto;
 
-    font-family: Arial, Helvetica, sans-serif;
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
 
     background: #050912;
+
     color: white;
 }
 
 #app {
     width: 100%;
+
     min-height: 100vh;
 }
+
 
 /* =========================
    WORLD
@@ -32,13 +44,18 @@ body {
     position: relative;
 
     width: 100%;
+
     min-height: 100vh;
 
     overflow: hidden;
 
-    background-image: url("/mc-night.jpg");
+    background-image:
+        url("/mc-night.jpg");
+
     background-size: cover;
+
     background-position: center;
+
     background-repeat: no-repeat;
 }
 
@@ -46,14 +63,17 @@ body {
     content: "";
 
     position: absolute;
+
     inset: 0;
 
-    background: rgba(0, 0, 0, 0.30);
+    background:
+        rgba(0, 0, 0, 0.30);
 
     z-index: 1;
 
     pointer-events: none;
 }
+
 
 /* =========================
    VISITOR COUNTER
@@ -63,20 +83,30 @@ body {
     position: fixed;
 
     top: 18px;
+
     left: 20px;
 
     z-index: 9999;
 
     display: flex;
+
     align-items: center;
 
     gap: 5px;
 
-    font-family: "Press Start 2P", monospace;
+    font-family:
+        "Press Start 2P",
+        monospace;
 
     font-size: 9px;
 
-    color: rgba(255, 255, 255, 0.75);
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.75
+        );
 
     text-shadow:
         1px 1px 0 #000;
@@ -95,21 +125,26 @@ body {
 }
 
 #visitor-count {
-    display: inline-block;
-
     min-width: 15px;
 
-    font-family: "Press Start 2P", monospace;
+    font-family:
+        "Press Start 2P",
+        monospace;
 
     font-size: 9px;
 
-    color: rgba(255, 255, 255, 0.9);
-
-    letter-spacing: 0;
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.9
+        );
 
     text-shadow:
         1px 1px 0 #000;
 }
+
 
 /* =========================
    RAIN
@@ -133,33 +168,53 @@ body {
     top: -50px;
 
     width: 1px;
+
     height: 45px;
 
-    background: linear-gradient(
-        to bottom,
-        transparent,
-        rgba(190, 220, 255, 0.8)
-    );
+    background:
+        linear-gradient(
+            to bottom,
+            transparent,
+            rgba(
+                190,
+                220,
+                255,
+                0.8
+            )
+        );
 
-    transform: rotate(12deg);
+    transform:
+        rotate(12deg);
 
-    animation: rain-fall linear infinite;
+    animation:
+        rain-fall
+        linear
+        infinite;
 }
 
 @keyframes rain-fall {
 
     from {
         transform:
-            translate3d(0, -60px, 0)
+            translate3d(
+                0,
+                -60px,
+                0
+            )
             rotate(12deg);
     }
 
     to {
         transform:
-            translate3d(-120px, 110vh, 0)
+            translate3d(
+                -120px,
+                110vh,
+                0
+            )
             rotate(12deg);
     }
 }
+
 
 /* =========================
    FOG
@@ -171,17 +226,30 @@ body {
     position: absolute;
 
     left: -10%;
+
     bottom: -10%;
 
     width: 120%;
+
     height: 35%;
 
-    background: linear-gradient(
-        to bottom,
-        transparent,
-        rgba(170, 190, 190, 0.05),
-        rgba(170, 190, 190, 0.15)
-    );
+    background:
+        linear-gradient(
+            to bottom,
+            transparent,
+            rgba(
+                170,
+                190,
+                190,
+                0.05
+            ),
+            rgba(
+                170,
+                190,
+                190,
+                0.15
+            )
+        );
 
     filter: blur(20px);
 
@@ -189,6 +257,7 @@ body {
 
     pointer-events: none;
 }
+
 
 /* =========================
    MAIN CONTENT
@@ -199,7 +268,11 @@ body {
 
     z-index: 10;
 
-    width: min(90%, 650px);
+    width:
+        min(
+            90%,
+            650px
+        );
 
     min-height: 100vh;
 
@@ -215,8 +288,12 @@ body {
 
     text-align: center;
 
-    padding: 30px 0 50px;
+    padding:
+        30px
+        0
+        50px;
 }
+
 
 /* =========================
    STATUS
@@ -226,52 +303,78 @@ body {
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
     gap: 10px;
 
-    padding: 8px 14px;
+    padding:
+        8px
+        14px;
 
-    background: rgba(15, 20, 16, 0.78);
+    background:
+        rgba(
+            15,
+            20,
+            16,
+            0.78
+        );
 
-    border: 2px solid rgba(255, 255, 255, 0.15);
+    border:
+        2px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.15
+        );
 
     box-shadow:
-        4px 4px 0 rgba(0, 0, 0, 0.5);
+        4px 4px 0
+        rgba(
+            0,
+            0,
+            0,
+            0.5
+        );
 
-    font-family: "Press Start 2P", monospace;
+    font-family:
+        "Press Start 2P",
+        monospace;
 }
 
 .status-icon {
     width: 52px;
+
     height: 52px;
 
     object-fit: contain;
 
-    image-rendering: pixelated;
+    image-rendering:
+        pixelated;
 }
 
-.status-text {
-    color: #e8e8d0;
-
-    font-size: 9px;
-
-    line-height: 1.5;
-
-    text-shadow:
-        2px 2px 0 #000;
-}
 
 /* =========================
    NAME
    ========================= */
 
 .mainname {
-    margin: 22px 0 5px;
+    margin:
+        22px
+        0
+        5px;
 
-    font-family: "Press Start 2P", cursive;
+    font-family:
+        "Press Start 2P",
+        cursive;
 
-    font-size: clamp(34px, 6vw, 60px);
+    font-size:
+        clamp(
+            34px,
+            6vw,
+            60px
+        );
 
     line-height: 1.6;
 
@@ -279,14 +382,34 @@ body {
 
     letter-spacing: -2px;
 
-    color: rgba(255, 255, 255, 0.9);
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.9
+        );
 
     text-align: center;
 
     text-shadow:
-        4px 4px 0 rgba(0, 0, 0, 0.6),
-        0 0 30px rgba(140, 190, 255, 0.12);
+        4px 4px 0
+        rgba(
+            0,
+            0,
+            0,
+            0.6
+        ),
+
+        0 0 30px
+        rgba(
+            140,
+            190,
+            255,
+            0.12
+        );
 }
+
 
 /* =========================
    INTRO
@@ -295,44 +418,93 @@ body {
 .intro {
     max-width: 600px;
 
-    margin: 5px 0 0;
+    margin:
+        5px
+        0
+        0;
 
-    font-family: "Press Start 2P", cursive;
+    font-family:
+        "Press Start 2P",
+        cursive;
 
     font-size: 10px;
 
     line-height: 2;
 
-    color: rgba(255, 255, 255, 0.8);
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.8
+        );
 
     text-align: center;
 
     text-shadow:
-        2px 2px 0 rgba(0, 0, 0, 0.8);
+        2px 2px 0
+        rgba(
+            0,
+            0,
+            0,
+            0.8
+        );
 }
+
 
 /* =========================
    MUSIC
    ========================= */
 
 .music-player {
-    width: min(90%, 420px);
+    width:
+        min(
+            90%,
+            420px
+        );
 
     margin-top: 20px;
 
     padding: 18px;
 
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.12
+        );
 
     border-radius: 18px;
 
-    background: rgba(8, 12, 18, 0.72);
+    background:
+        rgba(
+            8,
+            12,
+            18,
+            0.72
+        );
 
-    backdrop-filter: blur(15px);
+    backdrop-filter:
+        blur(15px);
 
     box-shadow:
-        0 15px 50px rgba(0, 0, 0, 0.45),
-        inset 0 1px rgba(255, 255, 255, 0.05);
+        0 15px 50px
+        rgba(
+            0,
+            0,
+            0,
+            0.45
+        ),
+
+        inset 0 1px
+        rgba(
+            255,
+            255,
+            255,
+            0.05
+        );
 }
 
 .music-header {
@@ -347,18 +519,26 @@ body {
 
 .music-icon {
     width: 42px;
+
     height: 42px;
 
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
     flex-shrink: 0;
 
     border-radius: 12px;
 
-    background: rgba(255, 255, 255, 0.08);
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.08
+        );
 
     font-size: 20px;
 }
@@ -393,6 +573,7 @@ body {
     border-radius: 12px;
 }
 
+
 /* =========================
    SOCIALS
    ========================= */
@@ -401,6 +582,7 @@ body {
     display: flex;
 
     justify-content: center;
+
     align-items: center;
 
     gap: 14px;
@@ -410,22 +592,38 @@ body {
 
 .social-icon {
     width: 46px;
+
     height: 46px;
 
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
     flex-shrink: 0;
 
-    border: 1px solid rgba(255, 255, 255, 0.15);
+    border:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.15
+        );
 
     border-radius: 12px;
 
-    background: rgba(10, 15, 20, 0.65);
+    background:
+        rgba(
+            10,
+            15,
+            20,
+            0.65
+        );
 
-    backdrop-filter: blur(10px);
+    backdrop-filter:
+        blur(10px);
 
     text-decoration: none;
 
@@ -438,6 +636,7 @@ body {
 
 .social-icon svg {
     width: 23px;
+
     height: 23px;
 
     fill: white;
@@ -447,39 +646,81 @@ body {
 }
 
 .social-icon:hover {
-    transform: translateY(-5px);
+    transform:
+        translateY(-5px);
 }
 
 .social-icon:hover svg {
-    transform: scale(1.1);
+    transform:
+        scale(1.1);
 }
 
 .social-icon.discord:hover {
-    border-color: #5865f2;
+    border-color:
+        #5865f2;
 
-    background: rgba(88, 101, 242, 0.12);
+    background:
+        rgba(
+            88,
+            101,
+            242,
+            0.12
+        );
 
     box-shadow:
-        0 0 18px rgba(88, 101, 242, 0.35);
+        0 0 18px
+        rgba(
+            88,
+            101,
+            242,
+            0.35
+        );
 }
 
 .social-icon.spotify:hover {
-    border-color: #1db954;
+    border-color:
+        #1db954;
 
-    background: rgba(29, 185, 84, 0.12);
+    background:
+        rgba(
+            29,
+            185,
+            84,
+            0.12
+        );
 
     box-shadow:
-        0 0 18px rgba(29, 185, 84, 0.35);
+        0 0 18px
+        rgba(
+            29,
+            185,
+            84,
+            0.35
+        );
 }
 
 .social-icon.facebook:hover {
-    border-color: #1877f2;
+    border-color:
+        #1877f2;
 
-    background: rgba(24, 119, 242, 0.12);
+    background:
+        rgba(
+            24,
+            119,
+            242,
+            0.12
+        );
 
     box-shadow:
-        0 0 18px rgba(24, 119, 242, 0.35);
+        0 0 18px
+        rgba(
+            24,
+            119,
+            242,
+            0.35
+        );
 }
+
 
 /* =========================
    ACTIVE APPLICATION
@@ -492,20 +733,46 @@ body {
 
     gap: 12px;
 
-    width: min(90%, 360px);
+    width:
+        min(
+            90%,
+            360px
+        );
 
     margin-top: 16px;
 
-    padding: 10px 14px;
+    padding:
+        10px
+        14px;
 
-    background: rgba(10, 15, 20, 0.78);
+    background:
+        rgba(
+            10,
+            15,
+            20,
+            0.78
+        );
 
-    border: 2px solid rgba(255, 255, 255, 0.12);
+    border:
+        2px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.12
+        );
 
     box-shadow:
-        3px 3px 0 rgba(0, 0, 0, 0.5);
+        3px 3px 0
+        rgba(
+            0,
+            0,
+            0,
+            0.5
+        );
 
-    backdrop-filter: blur(8px);
+    backdrop-filter:
+        blur(8px);
 
     transition:
         transform 0.2s ease,
@@ -513,31 +780,55 @@ body {
 }
 
 .app:hover {
-    transform: translateY(-2px);
+    transform:
+        translateY(-2px);
 
-    border-color: rgba(255, 255, 255, 0.25);
+    border-color:
+        rgba(
+            255,
+            255,
+            255,
+            0.25
+        );
 }
 
 .app-icon {
     width: 38px;
+
     height: 38px;
 
     display: flex;
 
     align-items: center;
+
     justify-content: center;
 
     flex-shrink: 0;
 
-    background: rgba(255, 255, 255, 0.06);
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            0.06
+        );
 
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    border:
+        1px solid
+        rgba(
+            255,
+            255,
+            255,
+            0.08
+        );
 
     border-radius: 8px;
 
     color: #e8e8d0;
 
-    font-family: "Press Start 2P", monospace;
+    font-family:
+        "Press Start 2P",
+        monospace;
 
     font-size: 12px;
 
@@ -554,7 +845,9 @@ body {
 .app-title {
     text-align: left;
 
-    font-family: "Press Start 2P", monospace;
+    font-family:
+        "Press Start 2P",
+        monospace;
 
     font-size: 9px;
 
@@ -575,14 +868,23 @@ body {
 .app-status {
     margin-top: 2px;
 
-    font-family: "Press Start 2P", monospace;
+    font-family:
+        "Press Start 2P",
+        monospace;
 
     font-size: 6px;
 
-    color: rgba(255, 255, 255, 0.42);
+    color:
+        rgba(
+            255,
+            255,
+            255,
+            0.42
+        );
 
     letter-spacing: 1px;
 }
+
 
 /* =========================
    SMALL SCREEN
@@ -591,7 +893,8 @@ body {
 @media (max-height: 800px) {
 
     .container {
-        justify-content: flex-start;
+        justify-content:
+            flex-start;
 
         padding-top: 20px;
 
@@ -600,13 +903,19 @@ body {
 
     .status-icon {
         width: 44px;
+
         height: 44px;
     }
 
     .mainname {
         margin-top: 12px;
 
-        font-size: clamp(28px, 5vw, 48px);
+        font-size:
+            clamp(
+                28px,
+                5vw,
+                48px
+            );
     }
 
     .intro {
@@ -632,11 +941,14 @@ body {
     .app {
         margin-top: 12px;
 
-        padding: 9px 12px;
+        padding:
+            9px
+            12px;
     }
 
     .app-icon {
         width: 34px;
+
         height: 34px;
     }
 
@@ -649,6 +961,7 @@ body {
     }
 }
 
+
 /* =========================
    MOBILE
    ========================= */
@@ -658,19 +971,10 @@ body {
     .container {
         width: 94%;
 
-        padding: 20px 0 30px;
-    }
-
-    .visitor-counter {
-        top: 12px;
-
-        left: 12px;
-
-        font-size: 7px;
-    }
-
-    #visitor-count {
-        font-size: 7px;
+        padding:
+            20px
+            0
+            30px;
     }
 
     .mainname {
@@ -697,15 +1001,29 @@ body {
 
     .social-icon {
         width: 42px;
+
         height: 42px;
     }
 
     .social-icon svg {
         width: 20px;
+
         height: 20px;
     }
 
     .app {
         width: 100%;
+    }
+
+    .visitor-counter {
+        top: 12px;
+
+        left: 12px;
+
+        font-size: 7px;
+    }
+
+    #visitor-count {
+        font-size: 7px;
     }
 }
