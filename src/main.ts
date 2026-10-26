@@ -117,38 +117,33 @@ if (rain) {
 async function updateActiveApplication() {
     try {
         const response = await fetch(
-            "http://localhost:3001/api/status"
+            "http://localhost:3001/api/status",
+            {
+                cache: "no-store"
+            }
         );
 
         if (!response.ok) {
-            throw new Error(
-                "Failed to fetch application status."
-            );
+            throw new Error("Tracker offline");
         }
 
         const data = await response.json();
 
         const appTitle =
-            document.querySelector<HTMLDivElement>(
-                "#app-title"
-            );
+            document.querySelector<HTMLDivElement>("#app-title");
 
         const appIcon =
-            document.querySelector<HTMLDivElement>(
-                "#app-icon"
-            );
+            document.querySelector<HTMLDivElement>("#app-icon");
 
         const appStatus =
-            document.querySelector<HTMLDivElement>(
-                ".app-status"
-            );
+            document.querySelector<HTMLDivElement>("#app-status");
 
         if (!appTitle || !appIcon || !appStatus) {
             return;
         }
 
         const appName =
-            String(data.app).toLowerCase();
+            String(data.app || "").toLowerCase();
 
         /*
          * =========================
@@ -156,14 +151,10 @@ async function updateActiveApplication() {
          * =========================
          */
 
-        if (
-            data.spotify === true &&
-            data.title
-        ) {
+        if (data.spotify === true && data.title) {
             appIcon.textContent = "♪";
 
-            appTitle.textContent =
-                data.title;
+            appTitle.textContent = data.title;
 
             appStatus.textContent =
                 data.artist || "Spotify";
@@ -177,58 +168,65 @@ async function updateActiveApplication() {
          * =========================
          */
 
-        let displayName = data.app;
+        let displayName = data.app || "Unknown";
 
         if (appName.includes("chrome")) {
 
-            displayName =
-                "Google Chrome";
+            displayName = "Google Chrome";
 
-        } else if (
-            appName.includes("discord")
-        ) {
+        } else if (appName.includes("discord")) {
 
-            displayName =
-                "Discord";
+            displayName = "Discord";
 
-        } else if (
-            appName.includes("spotify")
-        ) {
+        } else if (appName.includes("spotify")) {
 
-            displayName =
-                "Spotify";
+            displayName = "Spotify";
 
-        } else if (
-            appName.includes("minecraft")
-        ) {
+        } else if (appName.includes("minecraft")) {
 
-            displayName =
-                "Minecraft";
+            displayName = "Minecraft";
 
-        } else if (
-            appName.includes("code")
-        ) {
+        } else if (appName.includes("code")) {
 
-            displayName =
-                "Visual Studio Code";
+            displayName = "Visual Studio Code";
         }
 
         appIcon.textContent = "◆";
 
-        appTitle.textContent =
-            displayName;
+        appTitle.textContent = displayName;
 
-        appStatus.textContent =
-            "ACTIVE";
+        appStatus.textContent = "ACTIVE";
 
     } catch (error) {
 
-        console.error(
-            "Cannot connect to application tracker:",
-            error
-        );
+        const appTitle =
+            document.querySelector<HTMLDivElement>("#app-title");
+
+        const appIcon =
+            document.querySelector<HTMLDivElement>("#app-icon");
+
+        const appStatus =
+            document.querySelector<HTMLDivElement>("#app-status");
+
+        if (!appTitle || !appIcon || !appStatus) {
+            return;
+        }
+
+        appIcon.textContent = "○";
+
+        appTitle.textContent = "Tracker Offline";
+
+        appStatus.textContent =
+            "Start tracker.py to activate";
     }
 }
+
+updateActiveApplication();
+
+setInterval(
+    updateActiveApplication,
+    5000
+);
 
 
 updateActiveApplication();
