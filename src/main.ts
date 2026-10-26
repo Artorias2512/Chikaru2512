@@ -16,7 +16,6 @@ app.innerHTML = `
 
             <div class="status">
                 <img class="status-icon" src="/icons/zhongli.gif" alt="">
-                
             </div>
 
             <h1 class="mainname">Chikaru2512</h1>
@@ -78,19 +77,34 @@ app.innerHTML = `
                 </a>
 
             </div>
-           <div class="app">
-    <div class="app-icon" id="app-icon">◆</div>
 
-    <div class="app-info">
-        <div class="app-title" id="app-title">
-            Waiting...
-        </div>
+            <div class="visitor-counter">
+                <span class="visitor-icon">👁</span>
 
-        <div class="app-status" id="app-status">
-            ACTIVE
-        </div>
-    </div>
-</div>
+                <span>
+                    Visitors:
+                </span>
+
+                <div
+                    class="counterapi"
+                    data-namespace="chikaru2512.com"
+                    data-name="visits">
+                </div>
+            </div>
+
+            <div class="app">
+                <div class="app-icon" id="app-icon">◆</div>
+
+                <div class="app-info">
+                    <div class="app-title" id="app-title">
+                        Waiting...
+                    </div>
+
+                    <div class="app-status" id="app-status">
+                        ACTIVE
+                    </div>
+                </div>
+            </div>
 
         </main>
     </div>
@@ -125,17 +139,27 @@ async function updateActiveApplication() {
 
         const data = await response.json();
 
-        const appTitle = document.querySelector<HTMLDivElement>("#app-title");
+        const appTitle =
+            document.querySelector<HTMLDivElement>(
+                "#app-title"
+            );
 
-        const appIcon = document.querySelector<HTMLDivElement>("#app-icon");
+        const appIcon =
+            document.querySelector<HTMLDivElement>(
+                "#app-icon"
+            );
 
-        const appStatus = document.querySelector<HTMLDivElement>("#app-status");
+        const appStatus =
+            document.querySelector<HTMLDivElement>(
+                "#app-status"
+            );
 
         if (!appTitle || !appIcon || !appStatus) {
             return;
         }
 
-        const appName = String(data.app || "").toLowerCase();
+        const appName =
+            String(data.app || "").toLowerCase();
 
         /*
          * =========================
@@ -143,12 +167,17 @@ async function updateActiveApplication() {
          * =========================
          */
 
-        if (data.spotify === true && data.title) {
+        if (
+            data.spotify === true &&
+            data.title
+        ) {
             appIcon.textContent = "♪";
 
-            appTitle.textContent = data.title;
+            appTitle.textContent =
+                data.title;
 
-            appStatus.textContent = data.artist || "Spotify";
+            appStatus.textContent =
+                data.artist || "Spotify";
 
             return;
         }
@@ -159,48 +188,86 @@ async function updateActiveApplication() {
          * =========================
          */
 
-        let displayName = data.app || "Unknown";
+        let displayName =
+            data.app || "Unknown";
 
-        if (appName.includes("chrome")) {
-            displayName = "Google Chrome";
-        } else if (appName.includes("discord")) {
-            displayName = "Discord";
-        } else if (appName.includes("spotify")) {
-            displayName = "Spotify";
-        } else if (appName.includes("minecraft")) {
-            displayName = "Minecraft";
-        } else if (appName.includes("code")) {
-            displayName = "Visual Studio Code";
+        if (
+            appName.includes("chrome")
+        ) {
+            displayName =
+                "Google Chrome";
+
+        } else if (
+            appName.includes("discord")
+        ) {
+            displayName =
+                "Discord";
+
+        } else if (
+            appName.includes("spotify")
+        ) {
+            displayName =
+                "Spotify";
+
+        } else if (
+            appName.includes("minecraft")
+        ) {
+            displayName =
+                "Minecraft";
+
+        } else if (
+            appName.includes("code")
+        ) {
+            displayName =
+                "Visual Studio Code";
         }
 
         appIcon.textContent = "◆";
 
-        appTitle.textContent = displayName;
+        appTitle.textContent =
+            displayName;
 
-        appStatus.textContent = "ACTIVE";
+        appStatus.textContent =
+            "ACTIVE";
+
     } catch (error) {
-        const appTitle = document.querySelector<HTMLDivElement>("#app-title");
 
-        const appIcon = document.querySelector<HTMLDivElement>("#app-icon");
+        const appTitle =
+            document.querySelector<HTMLDivElement>(
+                "#app-title"
+            );
 
-        const appStatus = document.querySelector<HTMLDivElement>("#app-status");
+        const appIcon =
+            document.querySelector<HTMLDivElement>(
+                "#app-icon"
+            );
 
-        if (!appTitle || !appIcon || !appStatus) {
+        const appStatus =
+            document.querySelector<HTMLDivElement>(
+                "#app-status"
+            );
+
+        if (
+            !appTitle ||
+            !appIcon ||
+            !appStatus
+        ) {
             return;
         }
 
         appIcon.textContent = "○";
 
-        appTitle.textContent = "Tracker Offline";
+        appTitle.textContent =
+            "Tracker Offline";
 
-        appStatus.textContent = "Start tracker.py to activate";
+        appStatus.textContent =
+            "Start tracker.py to activate";
     }
 }
 
 updateActiveApplication();
 
-setInterval(updateActiveApplication, 5000);
-
-updateActiveApplication();
-
-setInterval(updateActiveApplication, 5000);
+setInterval(
+    updateActiveApplication,
+    5000
+);

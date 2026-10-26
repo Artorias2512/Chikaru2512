@@ -1,6 +1,7 @@
-
+import os
 import time
 import threading
+import requests
 
 import win32gui
 import win32process
@@ -8,6 +9,23 @@ import psutil
 
 from flask import Flask, jsonify
 from flask_cors import CORS
+
+from dotenv import load_dotenv
+
+
+# =========================
+# LOAD ENVIRONMENT
+# =========================
+
+load_dotenv()
+
+TRACKER_SECRET = os.getenv(
+    "TRACKER_SECRET"
+)
+
+PUBLIC_API = (
+    "https://chikaru2512.vercel.app/api/status"
+)
 
 
 # =========================
@@ -44,7 +62,9 @@ def get_active_application():
 
     try:
 
-        _, pid = win32process.GetWindowThreadProcessId(hwnd)
+        _, pid = win32process.GetWindowThreadProcessId(
+            hwnd
+        )
 
         process = psutil.Process(pid)
 
@@ -73,16 +93,24 @@ def get_spotify_window():
             if not win32gui.IsWindowVisible(hwnd):
                 return
 
-            window_title = win32gui.GetWindowText(hwnd)
+            window_title = (
+                win32gui.GetWindowText(hwnd)
+            )
 
             if not window_title:
                 return
 
-            _, pid = win32process.GetWindowThreadProcessId(hwnd)
+            _, pid = (
+                win32process.GetWindowThreadProcessId(
+                    hwnd
+                )
+            )
 
             process = psutil.Process(pid)
 
-            process_name = process.name().lower()
+            process_name = (
+                process.name().lower()
+            )
 
             if "spotify" not in process_name:
                 return
@@ -93,7 +121,10 @@ def get_spotify_window():
 
             pass
 
-    win32gui.EnumWindows(enum_windows, None)
+    win32gui.EnumWindows(
+        enum_windows,
+        None
+    )
 
     return result
 
@@ -110,7 +141,9 @@ def update_status():
     # GET ACTIVE APPLICATION
     # =========================
 
-    active_app = get_active_application()
+    active_app = (
+        get_active_application()
+    )
 
     # =========================
     # RESET STATUS
@@ -127,9 +160,13 @@ def update_status():
     # GET SPOTIFY WINDOW
     # =========================
 
-    spotify_window = get_spotify_window()
+    spotify_window = (
+        get_spotify_window()
+    )
 
-    spotify_title = spotify_window["title"].strip()
+    spotify_title = (
+        spotify_window["title"].strip()
+    )
 
     # =========================
     # SPOTIFY MUSIC
@@ -145,18 +182,26 @@ def update_status():
 
         if " - " in spotify_title:
 
-            artist, title = spotify_title.split(
-                " - ",
-                1
+            artist, title = (
+                spotify_title.split(
+                    " - ",
+                    1
+                )
             )
 
-            current_status["artist"] = artist.strip()
+            current_status["artist"] = (
+                artist.strip()
+            )
 
-            current_status["title"] = title.strip()
+            current_status["title"] = (
+                title.strip()
+            )
 
         else:
 
-            current_status["title"] = spotify_title
+            current_status["title"] = (
+                spotify_title
+            )
 
     # =========================
     # SPOTIFY ACTIVE
@@ -170,6 +215,54 @@ def update_status():
 
 
 # =========================
+# SEND STATUS TO VERCEL
+# =========================
+
+def send_status():
+
+    if not TRACKER_SECRET:
+
+        print(
+            "ERROR: TRACKER_SECRET is missing."
+        )
+
+        return
+
+    try:
+
+        response = requests.post(
+            PUBLIC_API,
+            json=current_status,
+            headers={
+                "X-Tracker-Token":
+                    TRACKER_SECRET
+            },
+            timeout=5
+        )
+
+        if response.ok:
+
+            print(
+                "Activity sent successfully."
+            )
+
+        else:
+
+            print(
+                "Vercel API error:",
+                response.status_code,
+                response.text
+            )
+
+    except Exception as error:
+
+        print(
+            "Cannot send activity:",
+            error
+        )
+
+
+# =========================
 # BACKGROUND TRACKER
 # =========================
 
@@ -178,6 +271,8 @@ def tracker_loop():
     while True:
 
         update_status()
+
+        send_status()
 
         print(
             f"App: {current_status['app']}"
@@ -189,13 +284,15 @@ def tracker_loop():
 
 
 # =========================
-# API
+# LOCAL API
 # =========================
 
 @app.route("/api/status")
 def status():
 
-    return jsonify(current_status)
+    return jsonify(
+        current_status
+    )
 
 
 # =========================

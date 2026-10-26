@@ -300,7 +300,24 @@ body {
 
     font-size: 20px;
 }
+.visitor-counter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    margin-top: 18px;
+    font-size: 13px;
+    opacity: 0.7;
+}
 
+.visitor-icon {
+    font-size: 14px;
+}
+
+.counterapi {
+    display: inline-block;
+    min-width: 20px;
+}
 .music-label {
     color: #4ade80;
 
