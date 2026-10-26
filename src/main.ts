@@ -12,11 +12,19 @@ const rainCount = 140;
 app.innerHTML = `
     <div class="world">
 
-        <div class="visitor-counter">
-            <span class="visitor-label">VISITORS</span>
-            <span class="visitor-separator">:</span>
-            <span id="visitor-count">...</span>
-        </div>
+       <div class="visitor-counter">
+    <span class="visitor-label">VISITORS</span>
+    <span class="visitor-separator">:</span>
+
+    <div
+        class="counterapi"
+        ns="chikaru2512.com"
+        action="view"
+        key="visits"
+        noIcon="true"
+        noCss="true">
+    </div>
+</div>
 
         <div class="rain"></div>
 
