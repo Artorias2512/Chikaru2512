@@ -10,19 +10,17 @@ const rainCount = 140;
 
 app.innerHTML = `
     <div class="world">
-    <div class="world">
 
-    <div class="visitor-counter">
-        <span class="visitor-label">VISITORS</span>
-        <span class="visitor-separator">:</span>
-        <div
-            class="counterapi"
-            data-namespace="chikaru2512.com"
-            data-name="visits">
+        <div class="visitor-counter">
+            <span class="visitor-label">VISITORS</span>
+            <span class="visitor-separator">:</span>
+            <div
+                class="counterapi"
+                data-namespace="chikaru2512.com"
+                data-name="visits">
+            </div>
         </div>
-    </div>
 
-    <div class="rain"></div>
         <div class="rain"></div>
 
         <main class="container">
@@ -89,20 +87,6 @@ app.innerHTML = `
                     </svg>
                 </a>
 
-            </div>
-
-            <div class="visitor-counter">
-                <span class="visitor-icon">👁</span>
-
-                <span>
-                    Visitors:
-                </span>
-
-                <div
-                    class="counterapi"
-                    data-namespace="chikaru2512.com"
-                    data-name="visits">
-                </div>
             </div>
 
             <div class="app">
@@ -174,12 +158,6 @@ async function updateActiveApplication() {
         const appName =
             String(data.app || "").toLowerCase();
 
-        /*
-         * =========================
-         * SPOTIFY
-         * =========================
-         */
-
         if (
             data.spotify === true &&
             data.title
@@ -194,12 +172,6 @@ async function updateActiveApplication() {
 
             return;
         }
-
-        /*
-         * =========================
-         * NORMAL APPLICATION
-         * =========================
-         */
 
         let displayName =
             data.app || "Unknown";
