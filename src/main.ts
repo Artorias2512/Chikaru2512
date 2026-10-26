@@ -14,13 +14,7 @@ app.innerHTML = `
         <div class="visitor-counter">
             <span class="visitor-label">VISITORS</span>
             <span class="visitor-separator">:</span>
-
-            <div
-                class="counterapi"
-                ns="chikaru2512.com"
-                action="view"
-                key="visits">
-            </div>
+            <span id="visitor-count">...</span>
         </div>
 
         <div class="rain"></div>
@@ -171,6 +165,84 @@ if (rain) {
         rain.appendChild(drop);
     }
 }
+
+/*
+ * =========================
+ * VISITOR COUNTER
+ * =========================
+ */
+
+async function updateVisitorCount() {
+
+    const visitorCount =
+        document.querySelector<HTMLSpanElement>(
+            "#visitor-count"
+        );
+
+    if (!visitorCount) {
+        return;
+    }
+
+    try {
+
+        const response =
+            await fetch(
+                "https://api.counterapi.dev/v1/chikaru2512.com/visits/up",
+                {
+                    cache: "no-store"
+                }
+            );
+
+        if (!response.ok) {
+
+            throw new Error(
+                `Counter API error: ${response.status}`
+            );
+        }
+
+        const data =
+            await response.json();
+
+        console.log(
+            "CounterAPI:",
+            data
+        );
+
+        const count =
+            data.count ??
+            data.value ??
+            data.visits;
+
+        if (
+            count === undefined ||
+            count === null
+        ) {
+
+            throw new Error(
+                "CounterAPI returned no count."
+            );
+        }
+
+        visitorCount.textContent =
+            Number(count).toLocaleString();
+
+    } catch (error) {
+
+        console.error(
+            "Visitor counter error:",
+            error
+        );
+
+        visitorCount.textContent =
+            "0";
+    }
+}
+
+/*
+ * =========================
+ * ACTIVE APPLICATION
+ * =========================
+ */
 
 async function updateActiveApplication() {
 
@@ -338,6 +410,14 @@ async function updateActiveApplication() {
             "Start tracker.py to activate";
     }
 }
+
+/*
+ * =========================
+ * START
+ * =========================
+ */
+
+updateVisitorCount();
 
 updateActiveApplication();
 
