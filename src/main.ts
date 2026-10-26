@@ -14,7 +14,15 @@ app.innerHTML = `
         <div class="visitor-counter">
             <span class="visitor-label">VISITORS</span>
             <span class="visitor-separator">:</span>
-            <span id="visitor-count">...</span>
+
+            <div
+                class="counterapi"
+                ns="chikaru2512.com"
+                action="view"
+                key="visits"
+                noIcon="true"
+                noCss="true">
+            </div>
         </div>
 
         <div class="rain"></div>
@@ -77,7 +85,9 @@ app.innerHTML = `
                     aria-label="Discord">
 
                     <svg viewBox="0 0 24 24">
+
                         <path d="M19.54 5.12A16.88 16.88 0 0 0 15.4 3.85l-.5 1.02a15.4 15.4 0 0 0-5.8 0l-.5-1.02a16.88 16.88 0 0 0-4.14 1.27C1.84 8.93 1.13 12.64 1.49 16.3a16.84 16.84 0 0 0 5.08 2.57l1.23-1.67c-.68-.25-1.33-.57-1.94-.94l.48-.37c3.74 1.74 7.8 1.74 11.49 0l.48.37c-.61.37-1.26.69-1.94.94l1.23 1.67a16.84 16.84 0 0 0 5.08-2.57c.42-4.24-.72-7.91-3.64-11.18ZM8.62 14.3c-1.1 0-2-.99-2-2.21s.88-2.21 2-2.21 2 .99 2 2.21-.9 2.21-2 2.21Zm6.76 0c-1.1 0-2-.99-2-2.21s.88-2.21 2-2.21 2 .99 2 2.21-.9 2.21-2 2.21Z"/>
+
                     </svg>
 
                 </a>
@@ -88,7 +98,9 @@ app.innerHTML = `
                     aria-label="Spotify">
 
                     <svg viewBox="0 0 24 24">
+
                         <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm4.59 14.42a.74.74 0 0 1-1.02.25c-2.8-1.71-6.33-2.1-10.49-1.15a.74.74 0 1 1-.33-1.44c4.55-1.04 8.45-.56 11.59 1.36.35.22.46.68.25 1.03Zm1.37-3.05a.93.93 0 0 1-1.28.31c-3.2-1.97-8.08-2.54-11.86-1.39a.93.93 0 1 1-.54-1.78c4.33-1.31 9.72-.67 13.37 1.57.44.27.58.85.31 1.29Zm.12-3.18C14.24 8 8.05 7.78 4.47 8.87a1.11 1.11 0 1 1-.65-2.12c4.11-1.25 10.95-1 15.12 1.48a1.11 1.11 0 0 1-.86 1.96Z"/>
+
                     </svg>
 
                 </a>
@@ -99,7 +111,9 @@ app.innerHTML = `
                     aria-label="Facebook">
 
                     <svg viewBox="0 0 24 24">
+
                         <path d="M13.5 21v-8h2.7l.4-3h-3.1V8.08c0-.87.24-1.46 1.5-1.46h1.6V3.94c-.28-.04-1.25-.12-2.38-.12-2.36 0-3.98 1.44-3.98 4.08V10H7.55v3h2.69v8h3.26Z"/>
+
                     </svg>
 
                 </a>
@@ -137,6 +151,48 @@ app.innerHTML = `
     </div>
 `;
 
+/*
+ * =========================
+ * COUNTER API
+ * =========================
+ *
+ * Quan trọng:
+ * HTML của counter được tạo bằng innerHTML ở trên.
+ * Vì vậy load CounterAPI SAU KHI element đã tồn tại.
+ */
+
+function loadCounterAPI() {
+
+    const existingScript =
+        document.querySelector(
+            'script[data-counterapi="true"]'
+        );
+
+    if (existingScript) {
+        return;
+    }
+
+    const script =
+        document.createElement("script");
+
+    script.src =
+        "https://counterapi.com/c.js?ns=chikaru2512.com";
+
+    script.async = true;
+
+    script.dataset.counterapi = "true";
+
+    document.head.appendChild(script);
+}
+
+loadCounterAPI();
+
+/*
+ * =========================
+ * RAIN
+ * =========================
+ */
+
 const rain =
     document.querySelector<HTMLDivElement>(".rain");
 
@@ -163,78 +219,6 @@ if (rain) {
             `${0.15 + Math.random() * 0.5}`;
 
         rain.appendChild(drop);
-    }
-}
-
-/*
- * =========================
- * VISITOR COUNTER
- * =========================
- */
-
-async function updateVisitorCount() {
-
-    const visitorCount =
-        document.querySelector<HTMLSpanElement>(
-            "#visitor-count"
-        );
-
-    if (!visitorCount) {
-        return;
-    }
-
-    try {
-
-        const response =
-            await fetch(
-                "https://api.counterapi.dev/v1/chikaru2512.com/visits/up",
-                {
-                    cache: "no-store"
-                }
-            );
-
-        if (!response.ok) {
-
-            throw new Error(
-                `Counter API error: ${response.status}`
-            );
-        }
-
-        const data =
-            await response.json();
-
-        console.log(
-            "CounterAPI:",
-            data
-        );
-
-        const count =
-            data.count ??
-            data.value ??
-            data.visits;
-
-        if (
-            count === undefined ||
-            count === null
-        ) {
-
-            throw new Error(
-                "CounterAPI returned no count."
-            );
-        }
-
-        visitorCount.textContent =
-            Number(count).toLocaleString();
-
-    } catch (error) {
-
-        console.error(
-            "Visitor counter error:",
-            error
-        );
-
-        visitorCount.textContent =
-            "0";
     }
 }
 
@@ -410,14 +394,6 @@ async function updateActiveApplication() {
             "Start tracker.py to activate";
     }
 }
-
-/*
- * =========================
- * START
- * =========================
- */
-
-updateVisitorCount();
 
 updateActiveApplication();
 
