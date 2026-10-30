@@ -11,11 +11,12 @@
   "devDependencies": {
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
-    "@vercel/node": "^27.0.2",
+    "@vercel/node": "^4.0.0",
     "typescript": "~6.0.3",
     "vite": "^8.3.4"
   },
   "dependencies": {
+    "@upstash/redis": "^1.40.0",
     "cors": "^2.8.6",
     "counterapi": "^3.1.0",
     "express": "^5.3.0"

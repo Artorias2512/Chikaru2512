@@ -1,3 +1,4 @@
+
 import os
 import time
 import threading
@@ -50,89 +51,65 @@ current_status = {
 
 
 # =========================
-# GAME / APPLICATION NAMES
+# APPLICATION NAMES
 # =========================
 
-APPLICATION_NAMES = {
+APP_NAMES = {
+
+    # Browsers
+    "chrome.exe": "Google Chrome",
+    "msedge.exe": "Microsoft Edge",
+    "firefox.exe": "Firefox",
+    "opera.exe": "Opera",
+    "brave.exe": "Brave",
+
+    # Communication
+    "discord.exe": "Discord",
+    "teams.exe": "Microsoft Teams",
+    "slack.exe": "Slack",
+
+    # Music
+    "spotify.exe": "Spotify",
+
+    # Development
+    "code.exe": "Visual Studio Code",
+    "devenv.exe": "Visual Studio",
+    "idea64.exe": "IntelliJ IDEA",
+    "pycharm64.exe": "PyCharm",
+    "netbeansG4.exe": "Net Beans",
+
+    # Minecraft
+    "minecraft.exe": "Minecraft",
+    "javaw.exe": "Minecraft",
+    "java.exe": "Minecraft",
 
     # Games
-    "genshinimpact.exe":
-        "Genshin Impact",
+    "genshinimpact.exe": "Genshin Impact",
+    "genshinimpact_launcher.exe": "Genshin Impact",
 
-    "eldenring.exe":
-        "Elden Ring",
+    "eldenring.exe": "Elden Ring",
+    "eldenring.exe": "Elden Ring",
 
-    "minecraft.exe":
-        "Minecraft",
+    "valorant.exe": "VALORANT",
+    "leagueclient.exe": "League of Legends",
+    "league of legends.exe": "League of Legends",
 
-    "javaw.exe":
-        "Minecraft",
+    "cs2.exe": "Counter-Strike 2",
+    "csgo.exe": "Counter-Strike 2",
 
-    "valorant-win64-shipping.exe":
-        "VALORANT",
+    "steam.exe": "Steam",
 
-    "leagueclient.exe":
-        "League of Legends",
-
-    "league of legends.exe":
-        "League of Legends",
-
-    "cs2.exe":
-        "Counter-Strike 2",
-
-    "csgo.exe":
-        "Counter-Strike",
-
-    "dota2.exe":
-        "Dota 2",
-
-    "hollow knight.exe":
-        "Hollow Knight",
-
-    "stardew valley.exe":
-        "Stardew Valley",
-
-    "terraria.exe":
-        "Terraria",
-
-    "robloxplayerbeta.exe":
-        "Roblox",
-
-    "eldenring.exe":
-        "Elden Ring",
-
-    # Applications
-    "chrome.exe":
-        "Google Chrome",
-
-    "msedge.exe":
-        "Microsoft Edge",
-
-    "firefox.exe":
-        "Mozilla Firefox",
-
-    "discord.exe":
-        "Discord",
-
-    "spotify.exe":
-        "Spotify",
-
-    "code.exe":
-        "Visual Studio Code",
-
-    "notepad.exe":
-        "Notepad",
-
-    "explorer.exe":
-        "File Explorer",
-
-    "windowsterminal.exe":
-        "Windows Terminal"
+    # Windows
+    "explorer.exe": "Windows Explorer",
+    "notepad.exe": "Notepad",
+    "cmd.exe": "Command Prompt",
+    "powershell.exe": "PowerShell",
+    "windowsterminal.exe": "Windows Terminal"
 }
 
 
 # =========================
-# GET APPLICATION DISPLAY NAME
+# GET APPLICATION NAME
 # =========================
 
 def get_application_name(process_name):
@@ -140,16 +117,11 @@ def get_application_name(process_name):
     if not process_name:
         return "Unknown"
 
-    process_name = (
-        process_name.lower()
-    )
+    process_name = process_name.lower()
 
-    return APPLICATION_NAMES.get(
+    return APP_NAMES.get(
         process_name,
-        process_name.replace(
-            ".exe",
-            ""
-        )
+        process_name
     )
 
 
@@ -159,48 +131,28 @@ def get_application_name(process_name):
 
 def get_active_application():
 
-    hwnd = (
-        win32gui.GetForegroundWindow()
-    )
+    hwnd = win32gui.GetForegroundWindow()
 
     if not hwnd:
-
-        return {
-            "process": "",
-            "name": "Unknown"
-        }
+        return "Unknown"
 
     try:
 
-        _, pid = (
-            win32process.GetWindowThreadProcessId(
-                hwnd
-            )
+        _, pid = win32process.GetWindowThreadProcessId(
+            hwnd
         )
 
         process = psutil.Process(pid)
 
-        process_name = (
-            process.name()
-        )
+        process_name = process.name()
 
-        display_name = (
-            get_application_name(
-                process_name
-            )
+        return get_application_name(
+            process_name
         )
-
-        return {
-            "process": process_name,
-            "name": display_name
-        }
 
     except Exception:
 
-        return {
-            "process": "",
-            "name": "Unknown"
-        }
+        return "Unknown"
 
 
 # =========================
@@ -243,9 +195,7 @@ def get_spotify_window():
             if "spotify" not in process_name:
                 return
 
-            result["title"] = (
-                window_title
-            )
+            result["title"] = window_title
 
         except Exception:
 
@@ -275,34 +225,15 @@ def update_status():
         get_active_application()
     )
 
-    active_process = (
-        active_app["process"]
-    )
-
-    active_name = (
-        active_app["name"]
-    )
-
     # =========================
     # RESET STATUS
     # =========================
 
     current_status = {
-
-        "app":
-            active_name,
-
-        "process":
-            active_process,
-
-        "title":
-            "",
-
-        "artist":
-            "",
-
-        "spotify":
-            False
+        "app": active_app,
+        "title": "",
+        "artist": "",
+        "spotify": False
     }
 
     # =========================
@@ -356,14 +287,9 @@ def update_status():
     # SPOTIFY ACTIVE
     # =========================
 
-    if (
-        "spotify"
-        in active_process.lower()
-    ):
+    if "spotify" in active_app.lower():
 
-        current_status["app"] = (
-            "Spotify"
-        )
+        current_status["app"] = "Spotify"
 
         current_status["spotify"] = True
 
@@ -385,16 +311,12 @@ def send_status():
     try:
 
         response = requests.post(
-
             PUBLIC_API,
-
             json=current_status,
-
             headers={
                 "X-Tracker-Token":
                     TRACKER_SECRET
             },
-
             timeout=5
         )
 
@@ -434,7 +356,6 @@ def tracker_loop():
 
         print(
             f"App: {current_status['app']}"
-            f" | Process: {current_status['process']}"
             f" | Title: {current_status['title']}"
             f" | Artist: {current_status['artist']}"
         )
@@ -461,13 +382,9 @@ def status():
 def start_server():
 
     app.run(
-
         host="0.0.0.0",
-
         port=3001,
-
         debug=False,
-
         use_reloader=False
     )
 
@@ -479,9 +396,7 @@ def start_server():
 if __name__ == "__main__":
 
     server_thread = threading.Thread(
-
         target=start_server,
-
         daemon=True
     )
 
